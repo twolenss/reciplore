@@ -1,7 +1,10 @@
+import { NavLink } from "react-router-dom";
+
 function Navbar() {
   return (
     <nav>
-      <h2>Recipe Explorer</h2>
+    
+      
     </nav>
   );
 }
