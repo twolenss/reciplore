@@ -8,12 +8,14 @@ import SearchResults from "./pages/SearchResults";
 import Categories from "./pages/Categories";
 import CategoryRecipes from "./pages/CategoryRecipes";
 import Favorites from "./pages/Favorites";
+import useFavorites from "./hooks/useFavorites";
 function App() {
+  const { recipe, error, isLoading} = useFavorites()
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home recipe={recipe}/>} />
 
           <Route path="recipes">
             <Route index element={<Recipes />} />

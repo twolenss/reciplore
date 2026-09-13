@@ -1,5 +1,9 @@
-function Recipes() {
+function Recipes({}) {
 
-    return(<></>);
+    return(
+       <div>
+
+    </div>
+    );
 }
 export default Recipes;
