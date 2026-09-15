@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./layout/Layout";
-
 import Home from "./pages/Home";
 import Recipes from "./pages/Recipes";
 import RecipeDetails from "./pages/RecipeDetails";
@@ -9,6 +8,7 @@ import Categories from "./pages/Categories";
 import CategoryRecipes from "./pages/CategoryRecipes";
 import Favorites from "./pages/Favorites";
 import useFavorites from "./hooks/useFavorites";
+import SearchBar from "./components/SearchBar";
 function App() {
   const { recipe, error, isLoading} = useFavorites()
   return (
@@ -22,7 +22,7 @@ function App() {
             <Route path=":id" element={<RecipeDetails />} />
           </Route>
 
-          <Route path="search" element={<SearchResults />} />
+          <Route path="search" element={<SearchResults  />} />
 
           <Route path="categories">
             <Route index element={<Categories />} />

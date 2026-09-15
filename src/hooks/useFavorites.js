@@ -1,5 +1,5 @@
 import { useState,useEffect  } from "react";
-import { getRecipe } from "../services/recipeService";  
+import { getRecipe, searchRecipes } from "../services/recipeService";  
 const useFavorites = () => {
     const [recipe, setRecipe] = useState([]);
   const [error, setError] = useState(null);
@@ -18,6 +18,8 @@ const useFavorites = () => {
         setLoading(false);
       }
     };
+  
+
     fetchRecipe();
   }, []);
     return {recipe, error, isLoading,}
