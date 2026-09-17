@@ -9,7 +9,7 @@ import CategoryRecipes from "./pages/CategoryRecipes";
 import Favorites from "./pages/Favorites";
 import useFavorites from "./hooks/useFavorites";
 function App() {
-  const { recipe,categories, error, isLoading} = useFavorites()
+  const { recipe, error, isLoading} = useFavorites()
   return (
     <BrowserRouter>
       <Routes>
@@ -24,7 +24,7 @@ function App() {
           <Route path="search" element={<SearchResults  />} />
 
           <Route path="categories">
-            <Route index element={<Categories categories={categories}/>} />
+            <Route index element={<Categories/>} />
             <Route path=":categoryname" element={<CategoryRecipes />} />
           </Route>
 

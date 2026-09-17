@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getRecipe, categoryList } from "../services/recipeService";
+import { getRecipe } from "../services/recipeService";
 const useFavorites = () => {
   const [recipe, setRecipe] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -23,23 +23,23 @@ const useFavorites = () => {
     fetchRecipe();
   }, []);
 
-  useEffect(() => {
-    const fetchCategoryList = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await categoryList();
-        setCategories(data.categories[0]);
-      } catch (err) {
-        setError(err.message || "An error occurred while fetching categories");
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCategoryList = async () => {
+  //     try {
+  //       setLoading(true);
+  //       setError(null);
+  //       const data = await categoryList();
+  //       setCategories(data.categories[0]);
+  //     } catch (err) {
+  //       setError(err.message || "An error occurred while fetching categories");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchCategoryList();
-  }, []);
-  return { recipe, categories, error, isLoading };
+  //   fetchCategoryList();
+  // }, []);
+  return { recipe, error, isLoading };
 };
 
 export default useFavorites;

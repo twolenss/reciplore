@@ -2,7 +2,9 @@ const randomRecipe = "https://www.themealdb.com/api/json/v1/1/random.php";
 const searchRecipeAPI = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
 const mealsByFirstLetter = "https://www.themealdb.com/api/json/v1/1/search.php?f=";
 const mealsFullDetailsByID = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
-const categorieList = "https://www.themealdb.com/api/json/v1/1/categories.php";
+const categories = "https://www.themealdb.com/api/json/v1/1/categories.php";
+const allCategories = "https://www.themealdb.com/api/json/v1/1/list.php?c=list";
+const categoryListFilter = "https://www.themealdb.com/api/json/v1/1/filter.php?c=";
 async function handleResponse(response) {
   if (!response.ok) {
     throw new Error("Request Failed");
@@ -15,9 +17,16 @@ export async function getRecipe() {
   const response = await fetch(randomRecipe);
   return handleResponse(response);
 }
-
-export async function categoryList() {
-  const response = await fetch(categorieList);
+export async function allCategory() {
+  const response = await fetch(categories);
+  return handleResponse(response);
+}
+export async function categoryDetails() {
+  const response = await fetch(allCategories);
+  return handleResponse(response);
+}
+export async function categoryFilter(filter) {
+  const response = await fetch(categoryListFilter + encodeURIComponent(filter));
   return handleResponse(response);
 }
 export async function searchRecipes(query) {
@@ -27,7 +36,6 @@ export async function searchRecipes(query) {
 export async function firsLetterMeals(query) {
   const response = await fetch(mealsByFirstLetter + encodeURIComponent(query));
   return handleResponse(response);
-  
 }
 export async function mealsIdDetails(id) {
   const response = await fetch(mealsFullDetailsByID + id );
