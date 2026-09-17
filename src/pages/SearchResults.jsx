@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { searchRecipes } from "../services/recipeService";
 import SearchBar from "../components/SearchBar";
+import RecipeList from "../components/RecipeList";
 function SearchResults() {
   const [searchParams] = useSearchParams();
 
@@ -30,23 +31,17 @@ function SearchResults() {
   }, [searchTerm]);
 
   return (
-    <div>
+    <div className="listing-page search-results">
+      <header className="page-heading"><p className="eyebrow">Find your next favorite</p><h1>Search recipes</h1></header>
       <SearchBar />
       {searchTerm && 
        (
         <>
-          <p>Results for: <strong>{searchTerm}</strong></p>
-          {isLoading && <p>Loading...</p>}
-          {error && <p>{error}</p>}
-          {!isLoading && !error && !recipes.length && <p>No recipes found for "{searchTerm}".</p>}
-          {recipes.map((recipe) => (
-            <div key={recipe.idMeal}>
-              <img src={recipe.strMealThumb} alt={recipe.strMeal} />
-              <h2>{recipe.strMeal}</h2>
-              <p>{recipe.strCategory}</p>
-              <p>{recipe.strArea}</p>
-            </div>
-          ))}
+          <p className="results-copy">Results for <strong>{searchTerm}</strong></p>
+          {isLoading && <p className="status-message">Searching recipes…</p>}
+          {error && <p className="status-message status-message--error">{error}</p>}
+          {!isLoading && !error && !recipes.length && <p className="status-message">No recipes found for "{searchTerm}".</p>}
+          {!isLoading && !error && recipes.length > 0 && <RecipeList recipes={recipes} />}
         </>
       )}
     </div>

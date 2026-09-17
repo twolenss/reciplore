@@ -24,12 +24,12 @@ function Categories() {
   }, []);
 
   return (
-    <div>
-      <h1>Categories</h1>
+    <div className="listing-page categories-page">
+      <header className="page-heading"><p className="eyebrow">Find your flavor</p><h1>Browse by category</h1><p>From comfort classics to dishes from farther afield.</p></header>
       <select
         defaultValue="All"
         onChange={(e) => navigate(`/categories/${e.target.value}`)}
-        className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-primary-text outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+        className="category-select"
       >
         <option value="all">All Categories</option>
         {categoryList.map((meal) => (
@@ -38,9 +38,9 @@ function Categories() {
           </option>
         ))}
       </select>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      {!isLoading && !error && !categories.length && <p>No categories found.</p>}
+      {isLoading && <p className="status-message">Loading categories…</p>}
+      {error && <p className="status-message status-message--error">{error}</p>}
+      {!isLoading && !error && !categories.length && <p className="status-message">No categories found.</p>}
       {!isLoading && !error && categories.length > 0 && <CategoryList categories={categories} categoryList={categoryList} />}
     </div>
   );

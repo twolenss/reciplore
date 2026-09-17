@@ -19,13 +19,13 @@ function Recipes() {
   }, [letter]);
 
   return (
-    <div>
-      <h1>Recipes</h1>
+    <div className="listing-page">
+      <header className="page-heading"><p className="eyebrow">Explore the collection</p><h1>Recipes for every appetite</h1><p>Browse a world of flavorful dishes, one letter at a time.</p></header>
       <AlphabetBar activeLetter={letter} onSelect={setLetter} />
-      {isLoading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+      {isLoading && <p className="status-message">Loading delicious ideas…</p>}
+      {error && <p className="status-message status-message--error">{error}</p>}
       {!isLoading && !error && !recipes.length && (
-        <p>No recipes start with "{letter.toUpperCase()}".</p>
+        <p className="status-message">No recipes start with "{letter.toUpperCase()}".</p>
       )}
       {!isLoading && !error && recipes.length > 0 && (
         <RecipeList recipes={recipes} />

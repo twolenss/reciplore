@@ -5,7 +5,7 @@ function Layout() {
     return(
         <>
         <Navbar/>
-        <main>
+        <main className="page-shell">
             <Outlet/>
         </main>
         </>

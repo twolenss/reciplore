@@ -18,12 +18,12 @@ function CategoryRecipes() {
   }, [categoryname]);
   //THIS CONTAINS THE DISPLAY OF RECIPES PER CATEGORIES
   return (
-    <div>
-      <h1>{categoryname}</h1>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+    <div className="listing-page">
+      <header className="page-heading"><p className="eyebrow">Category collection</p><h1>{categoryname}</h1><p>Explore dishes gathered for this delicious category.</p></header>
+      {isLoading && <p className="status-message">Loading recipes…</p>}
+      {error && <p className="status-message status-message--error">{error}</p>}
       {!isLoading && !error && !recipes.length && (
-        <p>No recipes found in "{categoryname}".</p>
+        <p className="status-message">No recipes found in "{categoryname}".</p>
       )}
       {!isLoading && !error && recipes.length > 0 && (
         <RecipeList recipes={recipes} />

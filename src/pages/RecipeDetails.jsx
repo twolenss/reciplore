@@ -22,15 +22,15 @@ function RecipeDetails() {
   console.log("Recipe ID:", id);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="status-message">Loading your recipe…</p>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className="status-message status-message--error">{error}</p>;
   }
 
   if (!recipe) {
-    return <p>Recipe not found.</p>;
+    return <p className="status-message">Recipe not found.</p>;
   }
   const ingredients = [];
   for (let i = 1; i <= 20; i++) {
@@ -43,43 +43,35 @@ function RecipeDetails() {
   const steps = recipe.strInstructions ? recipe.strInstructions.split("\r\n").filter((s) => s.trim()) : [];
 
   return (
-    <div>
-      <img src={recipe.strMealThumb} alt={recipe.strMeal} width="400" />
-      <h1>{recipe.strMeal}</h1>
-      <p>Category: {recipe.strCategory}</p>
-      <p>Area: {recipe.strArea}</p>
+    <article className="recipe-details">
+      <div className="recipe-details__hero">
+        <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+        <div className="recipe-details__intro"><p className="eyebrow">{recipe.strArea} cuisine</p><h1>{recipe.strMeal}</h1><div className="recipe-meta"><span>{recipe.strCategory}</span><span>Freshly made</span></div></div>
+      </div>
 
-      <h2>Ingredients</h2>
-      <ul>
+      <div className="recipe-details__body"><section className="ingredients-panel"><p className="eyebrow">What you'll need</p><h2>Ingredients</h2><ul>
         {ingredients.map((item, index) => (
           <li key={index}>
             {item.measure} {item.name}
           </li>
         ))}
-      </ul>
+      </ul></section>
 
-      <h2>Instructions</h2>
-      <ol>
+      <section className="instructions-panel"><p className="eyebrow">Let's make it</p><h2>Instructions</h2><ol>
         {steps.map((step, index) => (
           <li key={index}>{step}</li>
         ))}
       </ol>
 
-      {recipe.strSource && (
-        <p>
-          <a href={recipe.strSource} target="_blank" rel="noreferrer">
-            View Source
-          </a>
-        </p>
+      <div className="recipe-actions">{recipe.strSource && (
+        <a className="button button--secondary" href={recipe.strSource} target="_blank" rel="noreferrer">View Source</a>
       )}
       {recipe.strYoutube && (
-        <p>
-          <a href={recipe.strYoutube} target="_blank" rel="noreferrer">
+          <a className="button" href={recipe.strYoutube} target="_blank" rel="noreferrer">
             Watch on YouTube
           </a>
-        </p>
-      )}
-    </div>
+      )}</div></section></div>
+    </article>
   );
 }
 

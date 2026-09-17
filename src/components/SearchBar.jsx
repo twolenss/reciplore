@@ -18,13 +18,14 @@ function SearchBar() {
   }, [searchTerm, navigate]);
 
   return (
-    <form>
+    <form className="search-bar" role="search">
       <input
         type="text"
         placeholder="Search recipes..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+      <span className="search-icon" aria-hidden="true">⌕</span>
     </form>
   );
 }
