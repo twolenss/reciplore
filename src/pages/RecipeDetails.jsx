@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { mealsIdDetails } from "../services/recipeService";
-
+import useFavorites from "../hooks/useFavorites";
 function RecipeDetails() {
   const { id } = useParams();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState("");
@@ -17,9 +18,6 @@ function RecipeDetails() {
       .catch((err) => setError(err.message || "Failed to fetch"))
       .finally(() => setLoading(false));
   }, [id]);
-
-
-  console.log("Recipe ID:", id);
 
   if (loading) {
     return <p className="status-message">Loading your recipe…</p>;
@@ -46,31 +44,55 @@ function RecipeDetails() {
     <article className="recipe-details">
       <div className="recipe-details__hero">
         <img src={recipe.strMealThumb} alt={recipe.strMeal} />
-        <div className="recipe-details__intro"><p className="eyebrow">{recipe.strArea} cuisine</p><h1>{recipe.strMeal}</h1><div className="recipe-meta"><span>{recipe.strCategory}</span><span>Freshly made</span></div></div>
+        <div className="recipe-details__intro">
+          <p className="eyebrow">{recipe.strArea} cuisine</p>
+          <h1>{recipe.strMeal}</h1>
+          <div className="recipe-meta">
+            <span>{recipe.strCategory}</span>
+            <span>Freshly made</span>
+          </div>
+        </div>
       </div>
 
-      <div className="recipe-details__body"><section className="ingredients-panel"><p className="eyebrow">What you'll need</p><h2>Ingredients</h2><ul>
-        {ingredients.map((item, index) => (
-          <li key={index}>
-            {item.measure} {item.name}
-          </li>
-        ))}
-      </ul></section>
+      <div className="recipe-details__body">
+        <section className="ingredients-panel">
+          <p className="eyebrow">What you'll need</p>
+          <h2>Ingredients</h2>
+          <ul>
+            {ingredients.map((item, index) => (
+              <li key={index}>
+                {item.measure} {item.name}
+              </li>
+            ))}
+          </ul>
+        </section>
 
-      <section className="instructions-panel"><p className="eyebrow">Let's make it</p><h2>Instructions</h2><ol>
-        {steps.map((step, index) => (
-          <li key={index}>{step}</li>
-        ))}
-      </ol>
+        <section className="instructions-panel">
+          <p className="eyebrow">Let's make it</p>
+          <h2>Instructions</h2>
+          <ol>
+            {steps.map((step, index) => (
+              <li key={index}>{step}</li>
+            ))}
+          </ol>
 
-      <div className="recipe-actions">{recipe.strSource && (
-        <a className="button button--secondary" href={recipe.strSource} target="_blank" rel="noreferrer">View Source</a>
-      )}
-      {recipe.strYoutube && (
-          <a className="button" href={recipe.strYoutube} target="_blank" rel="noreferrer">
-            Watch on YouTube
-          </a>
-      )}</div></section></div>
+          <div className="recipe-actions">
+            <button className={isFavorite(recipe.idMeal) ? "button" : "button button--secondary"} onClick={() => toggleFavorite(recipe)}>
+              {isFavorite(recipe.idMeal) ? "Remove from favorites ♥" : "Add to favorites ♡"}
+            </button>
+            {recipe.strSource && (
+              <a className="button button--secondary" href={recipe.strSource} target="_blank" rel="noreferrer">
+                View Source
+              </a>
+            )}
+            {recipe.strYoutube && (
+              <a className="button" href={recipe.strYoutube} target="_blank" rel="noreferrer">
+                Watch on YouTube
+              </a>
+            )}
+          </div>
+        </section>
+      </div>
     </article>
   );
 }

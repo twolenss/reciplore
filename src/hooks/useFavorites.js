@@ -1,45 +1,47 @@
 import { useState, useEffect } from "react";
-import { getRecipe } from "../services/recipeService";
+
+const STORAGE_KEY = "favorites";
+
 const useFavorites = () => {
-  const [recipe, setRecipe] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    const fetchRecipe = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await getRecipe();
-        setRecipe(data.meals[0]);
-      } catch (err) {
-        setError(err.message || "An error occurred while fetching recipe");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRecipe();
+    try {
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      setFavorites(Array.isArray(stored) ? stored : []);
+    } catch {
+      setFavorites([]);
+    }
   }, []);
 
-  // useEffect(() => {
-  //   const fetchCategoryList = async () => {
-  //     try {
-  //       setLoading(true);
-  //       setError(null);
-  //       const data = await categoryList();
-  //       setCategories(data.categories[0]);
-  //     } catch (err) {
-  //       setError(err.message || "An error occurred while fetching categories");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  const addFavorite = (recipe) => {
+    setFavorites((prev) => {
+      if (prev.some((r) => r.idMeal === recipe.idMeal)) return prev;
+      const next = [...prev, recipe];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  };
 
-  //   fetchCategoryList();
-  // }, []);
-  return { recipe, error, isLoading };
+  const removeFavorite = (id) => {
+    setFavorites((prev) => {
+      const next = prev.filter((r) => r.idMeal !== id);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const toggleFavorite = (recipe) => {
+    if (favorites.some((r) => r.idMeal === recipe.idMeal)) {
+      removeFavorite(recipe.idMeal);
+    } else {
+      addFavorite(recipe);
+    }
+  };
+
+  const isFavorite = (id) => favorites.some((r) => r.idMeal === id);
+
+  return { favorites, addFavorite, removeFavorite, toggleFavorite, isFavorite };
 };
 
 export default useFavorites;

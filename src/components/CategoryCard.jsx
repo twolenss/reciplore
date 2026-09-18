@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function CategoryCard({ category, categoryList }) {
+function CategoryCard({ category }) {
   return (
     <article className="category-card">
       <img src={category.strCategoryThumb} alt={category.strCategory} />
